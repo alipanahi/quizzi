@@ -1,24 +1,34 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
-
+import Form from './Form' 
+import Questions from './Questions'
 function App() {
+  const [quiz, setQuiz] = React.useState(
+    {
+      category:"",
+      difficulty:"",
+      quiz:false
+    }
+  )
+  function handleData(formData){//it is called from form.js
+      setQuiz(
+        {
+          category:formData.category,
+          difficulty:formData.difficulty,
+          quiz:true
+        }
+      ) 
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="App">
+      {
+        quiz.quiz ?
+        <Questions category={quiz.category} difficulty={quiz.difficulty}/>
+        :
+        <Form handleData={handleData}/>
+      }
+    </main>
+    
   );
 }
 
