@@ -2,34 +2,33 @@ import React from 'react';
 import './App.css';
 import Form from './Form' 
 import Questions from './Questions'
-function App() {
-  const [quiz, setQuiz] = React.useState(
-    {
-      category:"",
+class App extends React.Component {
+  state = {
+      category:0,
       difficulty:"",
       quiz:false
-    }
-  )
-  function handleData(formData){//it is called from form.js
-      setQuiz(
-        {
+  }
+  handleData = formData =>{//it is called from form.js
+    
+      this.setState({
           category:formData.category,
           difficulty:formData.difficulty,
           quiz:true
-        }
-      ) 
+        })
   }
-  return (
-    <main className="App">
-      {
-        quiz.quiz ?
-        <Questions category={quiz.category} difficulty={quiz.difficulty}/>
-        :
-        <Form handleData={handleData}/>
-      }
-    </main>
-    
-  );
+  render(){
+    return (
+      <main className="App">
+        {
+          this.state.quiz ?
+          <Questions category={this.state.category} difficulty={this.state.difficulty}/>
+          :
+          <Form handleData={this.handleData}/>
+        }
+      </main>
+      
+    )
+  }
 }
 
 export default App;
