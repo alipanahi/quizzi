@@ -1,15 +1,16 @@
-import React from "react"
-
-export default function Answer(props){
+import React,{memo} from "react"
+import UserContext from "./userContext"
+export default memo(function Answer(props){
     
-    const answers = props.options.map(item=>{
-        return (<span className={!item.isChecked ? "answer" : "answer-disabled"}
-                style={{background:item.correctStyle}}
-                onClick={!item.isChecked ? ()=>props.onClickHandler(item.key) : null}>{atob(item.name)}</span>)
-    })
     return (
-        <>
-        {answers}
-        </>
+        <UserContext.Consumer>
+            {data => (
+                props.options.map(item=>{
+                    return (<span className={!item.isChecked ? "answer" : "answer-disabled"}
+                            style={{background:item.correctStyle}}
+                            onClick={!item.isChecked ? ()=>data.handleSelect(item.key,props.question) : null}>{atob(item.name)}</span>)
+                })
+            )}
+        </UserContext.Consumer>
     )
-}
+})

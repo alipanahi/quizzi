@@ -1,5 +1,6 @@
 import React from "react"
 import List from './List'
+import UserContext from './userContext';
 
 export default function Questions(props){
     const {category,difficulty} = props
@@ -36,7 +37,7 @@ export default function Questions(props){
     },[dbData])
     React.useEffect(function(){
         const questionElement = dbData.map(item => {
-            return (<List key={item.question} onSelect={handleSelect} list={answers[item.question]} {...item} />)
+            return (<List key={item.question} list={answers[item.question]} {...item} />)
         })
         setElement(questionElement)
         
@@ -87,12 +88,16 @@ export default function Questions(props){
         
     }
     return (
+        
         <div className="main-div">
-            {questionElement}
+            <UserContext.Provider value={{handleSelect:handleSelect}}>
+                {questionElement}
+            </UserContext.Provider>
             <div className="result-div">
                 <button onClick={checkAnswers} className="btn btn-answer">check Answers</button>
                 {isChecked.checked && <p className="score">You scored {isChecked.score}/10 correct answers</p>}
             </div>
         </div>
+        
     )
 }
