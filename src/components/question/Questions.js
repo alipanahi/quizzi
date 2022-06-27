@@ -1,5 +1,5 @@
 import React from "react"
-import UserContext from './userContext';
+import UserContext from '../../userContext';
 import useQuestion from "./useQuestion";
 
 export default function Questions(props){

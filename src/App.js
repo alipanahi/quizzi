@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import Form from './Form' 
-import Questions from './Questions'
+import Form from './components/form/Form' 
+import Questions from './components/question/Questions'
 class App extends React.Component {
   state = {
       category:0,

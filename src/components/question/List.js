@@ -1,5 +1,5 @@
 import React,{memo} from "react"
-import Answer from './Answer'
+import Answer from '../answer/Answer'
 export default memo(function List(props){
     
     let {question,list} = props

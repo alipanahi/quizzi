@@ -4,17 +4,17 @@ import List from './List'
 function useQuestion(props){
     const {category,difficulty} = props
 
-    const [dbData, setData] = React.useState([])
+    const [dbData, setDbData] = React.useState([])
     const [answers, setAnswers] = React.useState([])
-    const [questionElement, setElement] = React.useState([])
-    const [isChecked,setChecked] = React.useState({
+    const [questionElement, setQuestionElement] = React.useState([])
+    const [isChecked,setIsChecked] = React.useState({
         checked : false,
         score : 0
     })
     React.useEffect(function(){
         fetch(`https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple&encode=base64`)
             .then(res => res.json())
-            .then(data=>setData(data.results))
+            .then(data=>setDbData(data.results))
     },[])
     React.useEffect(function(){
         const answersElement = []
@@ -38,7 +38,7 @@ function useQuestion(props){
         const questionElement = dbData.map(item => {
             return (<List key={item.question} list={answers[item.question]} {...item} />)
         })
-        setElement(questionElement)
+        setQuestionElement(questionElement)
         
     },[answers])
     function checkAnswers(){
@@ -60,7 +60,7 @@ function useQuestion(props){
             answersElement[key] = answersList
         }
         setAnswers(answersElement)
-        setChecked({
+        setIsChecked({
             checked : true,
             score : totalScore
         })
