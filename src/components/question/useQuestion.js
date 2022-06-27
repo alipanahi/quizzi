@@ -12,9 +12,13 @@ function useQuestion(props){
         score : 0
     })
     React.useEffect(function(){
-        fetch(`https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple&encode=base64`)
+        let controller = new AbortController()
+        fetch(`https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple&encode=base64`,{signal: controller.signal})
             .then(res => res.json())
             .then(data=>setDbData(data.results))
+        return function(){
+            controller.abort()
+        }
     },[])
     React.useEffect(function(){
         const answersElement = []
@@ -32,6 +36,10 @@ function useQuestion(props){
             answersElement[item.question] = answersList
         }
         setAnswers(answersElement)
+        //cleanup
+        return () =>{
+            setAnswers([])
+        }
         
     },[dbData])
     React.useEffect(function(){
@@ -39,7 +47,10 @@ function useQuestion(props){
             return (<List key={item.question} list={answers[item.question]} {...item} />)
         })
         setQuestionElement(questionElement)
-        
+        //cleanup
+        return () =>{
+            setQuestionElement([])
+        }
     },[answers])
     function checkAnswers(){
         const answersElement = []
